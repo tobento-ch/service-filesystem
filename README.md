@@ -251,7 +251,7 @@ var_dump($dir->has(__DIR__.'/src/foo/')); // bool(true)
 
 var_dump($dir->has(__DIR__.'/src/foo/image.jpg')); // bool(true)
 
-// Check if it a directory is empty.
+// Check if a directory is empty.
 var_dump($dir->isEmpty(__DIR__.'/src/foo/')); // bool(false)
 ```
 
