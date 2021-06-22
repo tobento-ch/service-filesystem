@@ -61,11 +61,6 @@ class JsonFile extends File
             return '';
         }
         
-        try {
-            $content = file_get_contents($this->getFile());
-            return is_string($content) ? $content : '';
-        } catch (Throwable $t) {
-            return '';
-        }
+        return parent::getContent();
     }
 }

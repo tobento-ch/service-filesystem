@@ -406,5 +406,12 @@ class FileTest extends TestCase
         $file = new File(__DIR__.'/src/foo.txt');
         
         $this->assertTrue($file->delete());
-    }   
+    }
+    
+    public function testGetContentMethod()
+    {
+        $file = new File(__DIR__.'/src/flowers.json');
+        
+        $this->assertSame('{"name": "Scaevola"}', $file->getContent());
+    }    
 }

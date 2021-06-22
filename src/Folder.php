@@ -55,8 +55,8 @@ class Folder
      */    
     public function withName(string $name): static
     {
-		$new = clone $this;
-		$new->name = $name;
+        $new = clone $this;
+        $new->name = $name;
         return $new;
     }
     
@@ -118,8 +118,8 @@ class Folder
      */    
     public function withFolderPath(string $folderPath): static
     {
-		$new = clone $this;
-		$new->folderPath = $folderPath;
+        $new = clone $this;
+        $new->folderPath = $folderPath;
         return $new;
     }    
 }

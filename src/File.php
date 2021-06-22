@@ -16,6 +16,7 @@ namespace Tobento\Service\Filesystem;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use JsonException;
+use Throwable;
 
 /**
  * File
@@ -599,6 +600,25 @@ class File
                 
         return ($part === 0) ? $this->mimeType : $this->getMimeTypePart($part);
     }
+    
+    /**
+     * Gets the content.
+     *
+     * @return string
+     */    
+    public function getContent(): string
+    {
+        if (! $this->isFile()) {
+            return '';
+        }
+
+        try {
+            $content = file_get_contents($this->getFile());
+            return is_string($content) ? $content : '';
+        } catch (Throwable $t) {
+            return '';
+        }
+    }    
 
     /**
      * Get the response to download the file.

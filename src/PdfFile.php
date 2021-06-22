@@ -22,9 +22,9 @@ use Psr\Http\Message\StreamFactoryInterface;
 class PdfFile extends File
 {
     /**
-     * @var string
+     * @var null|string
      */    
-    protected string $content = '';
+    protected null|string $content = null;
     
     /**
      * If file is pdf extension.
@@ -56,7 +56,11 @@ class PdfFile extends File
      */    
     public function getContent(): string
     {
-        return $this->content;
+        if (!is_null($this->content)) {
+            return $this->content;
+        }
+        
+        return parent::getContent();
     }
 
     /**
