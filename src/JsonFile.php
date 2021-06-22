@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Tobento\Service\Filesystem;
 
 use JsonException;
-use Throwable;
 
 /**
  * JsonFile
