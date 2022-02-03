@@ -77,19 +77,5 @@ class FileResponseTest extends TestCase
         $this->assertInstanceOf(ResponseInterface::class, $fileResponse);
         
         $this->assertSame(404, $fileResponse->getStatusCode());
-    }
-    
-    public function testFileResponseMethodReturns404StatusCodeIfInvalidFileType()
-    {
-        $file = new File(__DIR__.'/src/flowers.txt');
-
-        $psr17Factory = new Psr17Factory();
-        $response = $psr17Factory->createResponse(200);
-
-        $fileResponse = $file->fileResponse($response, $psr17Factory);
-        
-        $this->assertInstanceOf(ResponseInterface::class, $fileResponse);
-        
-        $this->assertSame(404, $fileResponse->getStatusCode());
     }    
 }
