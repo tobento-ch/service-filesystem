@@ -636,12 +636,16 @@ class File
             return $response->withStatus(404);
         }
         
+        $mimeType = $this->getMimeType(0);
+
+        if (empty($mimeType)) {
+            $mimeType = 'application/octet-stream';
+        }
+        
         // create the stream
         $stream = $streamFactory->createStreamFromFile($this->getFile(), 'rb');
-            
-        return $response->withHeader('Cache-Control', 'no-cache, must-revalidate')
-                        ->withHeader('Pragma', 'no-cache')
-                        ->withHeader('Content-Type', 'application/octet-stream')
+        
+        return $response->withHeader('Content-Type', $mimeType)
                         ->withHeader('Content-Disposition', 'attachment; filename='.$this->getBasename())
                         ->withHeader('Content-Length', (string) $this->getSize())
                         ->withBody($stream);
@@ -659,28 +663,8 @@ class File
         StreamFactoryInterface $streamFactory
     ): ResponseInterface {
         
-        if (!$this->isFile()) {
-            return $response->withStatus(404);
-        }
-        
-        if ($this->isExtension(['jpeg', 'gif', 'png', 'pdf', 'webp', 'json'])) {
-
-            $mimeType = $this->getMimeType(0);
-            
-            if (empty($mimeType)) {
-                return $response->withStatus(404);
-            }
-        
-            // create the stream
-            $stream = $streamFactory->createStreamFromFile($this->getFile(), 'rb');
-                
-            return $response->withHeader('Content-Type', $mimeType)
-                            ->withHeader('Content-Disposition', 'inline; filename='.$this->getBasename())
-                            ->withHeader('Content-Length', (string) $this->getSize())
-                            ->withBody($stream);
-        }
-        
-        return $response->withStatus(404);
+        return $this->downloadResponse($response, $streamFactory)
+            ->withHeader('Content-Disposition', 'inline; filename='.$this->getBasename());
     }    
     
     /**
