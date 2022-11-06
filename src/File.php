@@ -617,7 +617,29 @@ class File
         } catch (Throwable $t) {
             return '';
         }
-    }    
+    }
+    
+    /**
+     * Returns true if the file is within the specified directory, otherwise false.
+     *
+     * @param string $dir
+     * @return bool
+     */
+    public function isWithinDir(string $dir): bool
+    {
+        $path = realpath($this->getDirname());
+        
+        if (!is_string($path)) {
+            return false;
+        }
+        
+        // normalize:
+        $dir = str_replace('\\', '/', $dir);
+        $dir = rtrim($dir, '/');
+        $path = str_replace('\\', '/', $path);
+        
+        return str_starts_with($path, $dir);
+    }
 
     /**
      * Get the response to download the file.

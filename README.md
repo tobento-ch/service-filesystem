@@ -171,6 +171,23 @@ $renamedFile = $movedFile->rename('new-name');
 var_dump($movedFile->delete()); // bool(true)
 ```
 
+#### Check if file is within a specified directory:
+
+```php
+use Tobento\Service\Filesystem\File;
+
+$file = new File('home/public/src/foo/image.jpg');
+
+var_dump($file->isWithinDir('home/public/src'));
+// bool(true)
+
+var_dump($file->isWithinDir('home/public/src/foo/'));
+// bool(true)
+
+var_dump($file->isWithinDir('home/public/src/bar/'));
+// bool(false)
+```
+
 #### File responses
 
 ```php

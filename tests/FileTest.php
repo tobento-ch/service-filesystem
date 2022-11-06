@@ -413,5 +413,24 @@ class FileTest extends TestCase
         $file = new File(__DIR__.'/src/flowers.json');
         
         $this->assertSame('{"name": "Scaevola"}', $file->getContent());
-    }    
+    }
+    
+    public function testIsWithinDirMethod()
+    {
+        $file = new File(__DIR__.'/src/flowers.json');
+        $this->assertTrue($file->isWithinDir(__DIR__.'/src/'));
+        $this->assertTrue($file->isWithinDir(__DIR__.'/src'));
+        $this->assertTrue($file->isWithinDir(__DIR__));
+        $this->assertFalse($file->isWithinDir(__DIR__.'/foo/'));
+        $this->assertFalse($file->isWithinDir(__DIR__.'/foo'));
+        
+        $file = new File(__DIR__.'/src/foo/../image.jpg');
+        $this->assertFalse($file->isWithinDir(__DIR__.'/src/foo/'));
+        $this->assertFalse($file->isWithinDir(__DIR__.'/src/foo'));
+        $this->assertTrue($file->isWithinDir(__DIR__.'/src/'));
+        
+        $file = new File(__DIR__.'/src/foo/%2e%2e/image.jpg');
+        $this->assertFalse($file->isWithinDir(__DIR__.'/src/foo'));
+        $this->assertFalse($file->isWithinDir(__DIR__.'/src/'));
+    }
 }
