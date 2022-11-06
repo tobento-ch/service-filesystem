@@ -78,7 +78,7 @@ class File
      *
      * @param string $file The file /home/www/file.txt
      */    
-    public function __construct(
+    final public function __construct(
         protected string $file
     ){
         $pathParts = pathinfo($this->file);
@@ -254,8 +254,7 @@ class File
             return null;
         }
         
-        $date = date($format, filemtime($this->file));
-        return (is_string($date)) ? $date : null;
+        return date($format, filemtime($this->file));
     }
 
     /**
@@ -270,8 +269,7 @@ class File
             return null;
         }
 
-        $date = date($format, filectime($this->file));
-        return (is_string($date)) ? $date : null;
+        return date($format, filectime($this->file));
     }
 
     /**
@@ -571,7 +569,8 @@ class File
      *
      * @param int $part If 0 gets full, else  image(part 1 ) / gif(part 2 )
      * @return string The mime type.
-     */    
+     * @psalm-suppress UnusedFunctionCall
+     */
     public function getMimeType(int $part = 0): string
     {
         if ($this->mimeType !== null) {
@@ -586,18 +585,18 @@ class File
         $this->mimeType = finfo_file(finfo_open(FILEINFO_MIME_TYPE), $this->file);
         
         // check for json
-        if ($this->mimeType === 'text/plain')
+        if (in_array($this->mimeType, ['text/plain', 'text/html']))
         {
             $content = file_get_contents($this->file);
             
             try {
-                $decoded = json_decode($content, true, 512, JSON_THROW_ON_ERROR);
+                json_decode($content, true, 512, JSON_THROW_ON_ERROR);
                 $this->mimeType = 'application/json';
             } catch (JsonException $e) {
                 // ignore
             }
         }
-                
+        
         return ($part === 0) ? $this->mimeType : $this->getMimeTypePart($part);
     }
     
