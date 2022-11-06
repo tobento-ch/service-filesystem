@@ -48,18 +48,4 @@ class JsonFile extends File
             return [];
         }
     }
-    
-    /**
-     * Gets the content.
-     *
-     * @return string A string
-     */    
-    public function getContent(): string
-    {
-        if (! $this->isJson()) {
-            return '';
-        }
-        
-        return parent::getContent();
-    }
 }
