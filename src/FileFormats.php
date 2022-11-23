@@ -101,14 +101,19 @@ trait FileFormats
     }
     
     /**
-     * Gets format with its corresponding mime type.
+     * Returns the format for the specified mime type.
      *
-     * @param string $mimeType The mime type such as 'text/plain', 'application/javascript'.
+     * @param string $mimeType The mime type such as 'text/plain', 'application/javascript', 'jpeg'.
      * @return string|null The format such as such as html, xml, js, css, json etc. (null is no mimeType matches a format.)
-     */    
+     */
     public function getFormat(string $mimeType): null|string
     {
         $mimeType = strtolower($mimeType);
+        
+        // return mimeType if it is already a valid format.
+        if (array_key_exists($mimeType, $this->formats)) {
+            return $mimeType;
+        }
         
         foreach ($this->formats as $format => $mimeTypes) {
 
