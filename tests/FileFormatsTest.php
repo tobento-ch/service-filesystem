@@ -89,6 +89,15 @@ class FileFormatsTest extends TestCase
         $f->addFormat('csv', 'text/plain');
                 
         $this->assertSame('txt', $f->getFormat(mimeType: 'text/plain'));
+    }
+    
+    public function testGetFormatMethodWithFormatSpecifiedReturnsFormat()
+    {
+        $f = new Formats();
+        
+        $f->addFormat(format: 'jpeg', mimeType: 'image/jpeg');
+                
+        $this->assertSame('jpeg', $f->getFormat(mimeType: 'jpeg'));
     }    
     
     public function testGetFormatsMethod()
