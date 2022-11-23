@@ -98,6 +98,15 @@ class FileFormatsTest extends TestCase
         $f->addFormat(format: 'jpeg', mimeType: 'image/jpeg');
                 
         $this->assertSame('jpeg', $f->getFormat(mimeType: 'jpeg'));
+    }
+    
+    public function testGetFormatMethodWithFormatSpecifiedReturnsNullIfInvalid()
+    {
+        $f = new Formats();
+        
+        $f->addFormat(format: 'jpeg', mimeType: 'image/jpeg');
+                
+        $this->assertSame(null, $f->getFormat(mimeType: 'jpe'));
     }    
     
     public function testGetFormatsMethod()
