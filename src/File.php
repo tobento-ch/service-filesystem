@@ -718,23 +718,10 @@ class File
         
         // check if there is already a suffix.
         if ($pos !== false) {
-
             $end = substr($filename, $pos+1);
-            
-            if ($end !== false) {
-                
-                if (is_numeric($end)) {
-                
-                    if (strlen($end) === 8) {
-                        
-                        $filenamePart = substr($filename, 0, $pos);
-                        
-                        if ($filenamePart !== false) {
-                            
-                            return $filenamePart.'-'.$suffix;
-                        }
-                    }
-                }
+            if (is_numeric($end) && strlen($end) === 8) {
+                $filenamePart = substr($filename, 0, $pos);
+                return $filenamePart.'-'.$suffix;
             }
         }
         
