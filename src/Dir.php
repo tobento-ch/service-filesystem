@@ -424,16 +424,27 @@ class Dir implements FileFormatsInterface
      */    
     protected function deleteDir(string $dir): bool
     {
-        $files = array_diff(scandir($dir), array('.','..'));
-        
-        foreach ($files as $file) {
-            
-            $path = $dir.'/'.$file;
-            
-            (is_dir($path) && !is_link($dir)) ? $this->deleteDir($path) : unlink($path);
+        if (! $this->isDir($dir)) {
+            return false;
+        }
+
+        $items = new \FilesystemIterator($dir);
+
+        foreach ($items as $item) {
+            if ($item->isDir() && ! $item->isLink()) {
+                $this->deleteDir($item->getPathname());
+            } else {
+                try {
+                    @unlink($item->getPathname());
+                } catch (\ErrorException $e) {
+                    //
+                }
+            }
         }
         
-        return rmdir($dir);
+        @rmdir($dir);
+        
+        return true;
     }
     
     /**
