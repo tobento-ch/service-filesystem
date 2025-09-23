@@ -217,10 +217,10 @@ class File
     /**
      * Gets the folder path.
      *
-     * @param int $trim Start and endling slash '/'.  0 = as set, 1 = 'img/sub', 2 = 'img/sub/', 3 = '/img/sub', 4 = '/img/sub/'
+     * @param null|int $trim Start and endling slash '/'.  0 = as set, 1 = 'img/sub', 2 = 'img/sub/', 3 = '/img/sub', 4 = '/img/sub/'
      * @return string The folder path. 'img/sub'
      */    
-    public function getFolderPath(int $trim = null): string
+    public function getFolderPath(null|int $trim = null): string
     {
         if (empty($this->folderPath)) {
             return $this->folderPath;
@@ -303,12 +303,12 @@ class File
             
         $units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
 
-        for ($i = 0; $bytes > 1024; $i++)
-        {
+        for ($i = 0; $bytes > 1024; $i++) {
+            $bytes = (int)$bytes;
             $bytes /= 1024;
         }
-
-        return round($bytes, 2).' '.($units[$i] ?? '');        
+        
+        return (string)round($bytes, 2).' '.($units[$i] ?? '');        
     }
     
     /**
@@ -597,7 +597,7 @@ class File
             }
         }
         
-        return ($part === 0) ? $this->mimeType : $this->getMimeTypePart($part);
+        return ($part === 0) ? (string)$this->mimeType : $this->getMimeTypePart($part);
     }
     
     /**
