@@ -238,7 +238,7 @@ class Dir implements FileFormatsInterface
      * @param string $directory The directory.
      * @param int $mode The mode such as 0755.
      * @param bool $recursive If recursive.
-     * @param resource $context (Not yet set available.)
+     * @param null|resource $context
      * @return bool True on success, false on failure.
      */    
     public function create(string $directory, int $mode = 0600, bool $recursive = false, $context = null): bool
@@ -260,7 +260,7 @@ class Dir implements FileFormatsInterface
             }
         }
         
-        return mkdir($directory, $mode, $recursive);
+        return mkdir($directory, $mode, $recursive, $context);
     }    
     
     /**
